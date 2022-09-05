@@ -58,4 +58,9 @@ public class Ubicacion {
     public static Ubicacion obtenerSiguenteRuta(Ubicacion ubicacionActual){
         return ingresoARutas.get(ubicacionActual);
     }
+
+    @Override
+    public String toString() {
+        return "{"+nombreRuta + ", " + km + '}';
+    }
 }

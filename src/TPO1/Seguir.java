@@ -12,7 +12,7 @@ public class Seguir implements EstrategiaCoduccion {
 
     @Override
     public void conducir(Colectivo colectivo) {
-        colectivo.seguir();
+        colectivo.setVelocidad(1);
     }
     
 }

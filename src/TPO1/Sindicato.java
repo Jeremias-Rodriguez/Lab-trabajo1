@@ -1,93 +1,67 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package TPO1;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
- * @author repetto.francisco
+ * @author jerexio
  */
-public class Sindicato {
-      //Atributos
-    private int numPiqueterosTotal;
-    private int numPiqueterosDisp;
-    private List<Ubicacion> lugaresParaPiquete;
+public class Sindicato extends Thread {
+
+    private OrganizadorSindicatos organizador;
+    private int piquetesExitosos = 0;
+    
+    private long tiempoIni;
+    private long tiempoFin;
+    private final ScheduledExecutorService sindicatos =
+     Executors.newScheduledThreadPool(4);
     
     
-    public Sindicato(){
-        //Esto lo estoy elegiendo pero se puede cambiar*/
-        this.numPiqueterosTotal = 5;
-        this.numPiqueterosDisp = 5;
-        ArrayList<Ubicacion> lugares = new ArrayList();
-        lugares.add(new Ubicacion("Ruta1",3));
-        lugares.add(new Ubicacion("Ruta1",10));
-        lugares.add(new Ubicacion("Ruta2",5));
-        lugares.add(new Ubicacion("Ruta3",2));
-        lugaresParaPiquete = Collections.synchronizedList(lugares);
+    public Sindicato(OrganizadorSindicatos organizador) {
+        this.organizador = organizador;
     }
     
-    private ScheduledExecutorService sindicato = Executors.newScheduledThreadPool(10);
-    
-    
-    private ScheduledThreadPoolExecutor piqueteros = new ScheduledThreadPoolExecutor(numPiqueterosTotal);
-    
-
-   public void mandarPiquetes() {
-       //Armo los piquetes
+    Runnable tarea = new Runnable(){
+    @Override
+    public void run(){
         Random random = new Random();
+        tiempoIni = System.currentTimeMillis();
+        tiempoFin = System.currentTimeMillis() + (random.nextInt(200)*1000);
         
-        //hacer randomizer piqute
-       Ubicacion ubic = lugaresParaPiquete.remove(random.nextInt(4));
-       System.out.println(lugaresParaPiquete.toString());
-       long duracion = random.nextInt(5) * 1000;
-       Piquete nuevoPiquete = new Piquete(ubic, duracion);
-       Callable piquete = new Callable() {
-           @Override
-           public Object call() {
-               System.out.println(Thread.currentThread().getName() + " haciendo piquete en "
-                       + nuevoPiquete.mostrarPiquete());
-               return ubic;
-           }
-       };
+        while(tiempoIni <= tiempoFin){
+            Piquete piquete = organizador.establecerPiqueteEnUbicacion();
+            
+            boolean exito = (boolean)organizador.mandarPiquete(piquete);
+            piquetesExitosos += (exito) ? 1 : 0;
 
-       Runnable organizadorDePiquetes = new Runnable() {
-           public void run() {
-               System.out.println(Thread.currentThread().getName());
-                 //Se crea piquete
-               
-                //Se crea la tarea piquete que lo va a hacer uno de los hilos del grupo
-               
+            System.out.println("PIQUETE ES NULL 2: "+(piquete.getUbicacion() == null));
+            System.out.println(Thread.currentThread().getName()+" - "+piquete.getUbicacion().toString());
 
-               //Se pone el piquete en la cola de tareas
-               Future<Ubicacion> ubicacion = piqueteros.submit(piquete);
-//               try {
-//                   //System.out.println("asdasdsa"+ubicacion.get());
-//               } catch (InterruptedException ex) {
-//                  
-//               } catch (ExecutionException ex) {
-//                  
-//               }
-           }
-       };
-       //Lo de abajo crea un automatizador de piquetes
-     final ScheduledFuture<?> automatizadorDeOrganizador =
-       sindicato.scheduleAtFixedRate(organizadorDePiquetes, 1, 1000, TimeUnit.MILLISECONDS);
-   }
+            organizador.finalizarPiquete(piquete.getUbicacion());
+
+            tiempoIni = System.currentTimeMillis();
+           
+        }
+        System.out.println("\n\n---------------------------------------");
+        System.out.println("FIN piquete exitosos: "+piquetesExitosos);
+        System.out.println("---------------------------------------\n\n");
+    }};
+    
+    public void ejecutar(){
+        int cantSindicatos = 4;
+        final ScheduledFuture[] automatizadores = new ScheduledFuture[cantSindicatos];
+        for(int i = 0; i < cantSindicatos; i++){
+            automatizadores[i] = 
+            sindicatos.scheduleAtFixedRate(tarea, 10, 1000, TimeUnit.MILLISECONDS);
+        }
+    }
 }

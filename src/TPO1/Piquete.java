@@ -11,7 +11,7 @@ import java.util.concurrent.Callable;
  *
  * @author repetto.francisco
  */
-public class Piquete{
+public class Piquete {
      //Atributos
     private Ubicacion ubicacion;
     private long duracionMillis;
@@ -20,8 +20,25 @@ public class Piquete{
         this.ubicacion = ubicacion;
         this.duracionMillis = 5000+duracionMillis;
     }
+
+    public Ubicacion getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(Ubicacion ubicacion) {
+        this.ubicacion = ubicacion;
+    }
+
+    public long getDuracionMillis() {
+        return duracionMillis;
+    }
+
+    public void setDuracionMillis(long duracionMillis) {
+        this.duracionMillis = duracionMillis;
+    }
     
     public String mostrarPiquete(){
         return ubicacion.toString() + " que dura "+duracionMillis/1000+" segundos";
     }
+    
 }

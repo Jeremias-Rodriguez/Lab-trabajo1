@@ -12,6 +12,6 @@ public class Esperar implements EstrategiaCoduccion {
 
     @Override
     public void conducir(Colectivo colectivo) {
-        colectivo.parar();
+        colectivo.setVelocidad(0);
     }
 }

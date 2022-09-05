@@ -16,7 +16,10 @@ public class Doblar implements EstrategiaCoduccion {
                 ubic = colectivo.getUbicacion(),
                 nuevaUbic = Ubicacion.obtenerSiguenteRuta(ubic);
         
-        ubic.actualizarUbicacion(nuevaUbic.getNombreRuta(), 0);
+        if(ubic != null)
+            ubic.actualizarUbicacion(nuevaUbic.getNombreRuta(), 0);
+        else
+            System.out.println("No puede cambiar de ruta");
     }
     
 }

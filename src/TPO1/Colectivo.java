@@ -9,6 +9,7 @@ package TPO1;
  * @author jerexio
  */
 public class Colectivo {
+    private EstrategiaCoduccion estrategia;
     private Ubicacion ubicacion;
     private int velocidad;
 
@@ -17,15 +18,15 @@ public class Colectivo {
         this.velocidad = 0;
     }
     
-    public void parar(){
-        velocidad = 0;
+    public void setVelocidad(int velocidad){
+        this.velocidad = velocidad;
     }
     
-    public void seguir(){
-        velocidad = 1;
-    }
-
     public Ubicacion getUbicacion() {
         return ubicacion;
+    }
+    
+    public void ejecutarEstrategia(EstrategiaCoduccion estrategia){
+        this.estrategia.conducir(this);
     }
 }
