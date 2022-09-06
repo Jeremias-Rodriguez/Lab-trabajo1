@@ -22,8 +22,8 @@ public class Sindicato extends Thread {
     
     private long tiempoIni;
     private long tiempoFin;
-    private final ScheduledExecutorService sindicatos =
-     Executors.newScheduledThreadPool(4);
+    private final ScheduledExecutorService jefeSindicato =
+     Executors.newScheduledThreadPool(1);
     
     
     public Sindicato(OrganizadorSindicatos organizador) {
@@ -37,31 +37,27 @@ public class Sindicato extends Thread {
         tiempoIni = System.currentTimeMillis();
         tiempoFin = System.currentTimeMillis() + (random.nextInt(200)*1000);
         
-        while(tiempoIni <= tiempoFin){
-            Piquete piquete = organizador.establecerPiqueteEnUbicacion();
-            
-            boolean exito = (boolean)organizador.mandarPiquete(piquete);
-            piquetesExitosos += (exito) ? 1 : 0;
+        Piquete piquete = organizador.establecerPiqueteEnUbicacion();
 
-            System.out.println("PIQUETE ES NULL 2: "+(piquete.getUbicacion() == null));
-            System.out.println(Thread.currentThread().getName()+" - "+piquete.getUbicacion().toString());
+        boolean exito = (boolean)organizador.mandarPiquete(piquete);
+        piquetesExitosos += (exito) ? 1 : 0;
 
-            organizador.finalizarPiquete(piquete.getUbicacion());
+        System.out.println(Thread.currentThread().getName()+" - "+piquete.getUbicacion().toString());
 
-            tiempoIni = System.currentTimeMillis();
-           
-        }
-        System.out.println("\n\n---------------------------------------");
-        System.out.println("FIN piquete exitosos: "+piquetesExitosos);
-        System.out.println("---------------------------------------\n\n");
-    }};
+        organizador.finalizarPiquete(piquete.getUbicacion());
+
+        tiempoIni = System.currentTimeMillis();
+    }
+    };
     
     public void ejecutar(){
-        int cantSindicatos = 4;
-        final ScheduledFuture[] automatizadores = new ScheduledFuture[cantSindicatos];
-        for(int i = 0; i < cantSindicatos; i++){
-            automatizadores[i] = 
-            sindicatos.scheduleAtFixedRate(tarea, 10, 1000, TimeUnit.MILLISECONDS);
-        }
+        final ScheduledFuture automatizador = 
+            jefeSindicato.scheduleAtFixedRate(tarea, 10, 1000, TimeUnit.MILLISECONDS);
+        jefeSindicato.schedule(new Runnable(){
+            public void run(){
+                automatizador.cancel(true);
+                System.out.println("El horario de protesta finalizis");
+            }
+        }, 1000, TimeUnit.MILLISECONDS);
     }
 }

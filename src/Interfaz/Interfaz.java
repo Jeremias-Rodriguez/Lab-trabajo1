@@ -46,13 +46,13 @@ public class Interfaz extends javax.swing.JFrame {
         Background.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Colectivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/redimensionCole2.png"))); // NOI18N
-        Background.add(Colectivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 310, 120, 30));
+        Background.add(Colectivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 310, 120, 30));
 
         BotEsperar.setBackground(new java.awt.Color(51, 255, 51));
         BotEsperar.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         BotEsperar.setForeground(new java.awt.Color(0, 0, 0));
         BotEsperar.setText("ESPERAR");
-        BotEsperar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BotEsperar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         BotEsperar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotEsperarActionPerformed(evt);
@@ -64,7 +64,7 @@ public class Interfaz extends javax.swing.JFrame {
         BotSeguir.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         BotSeguir.setForeground(new java.awt.Color(0, 0, 0));
         BotSeguir.setText("SEGUIR");
-        BotSeguir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BotSeguir.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         BotSeguir.setMaximumSize(new java.awt.Dimension(118, 34));
         BotSeguir.setMinimumSize(new java.awt.Dimension(118, 34));
         BotSeguir.setPreferredSize(new java.awt.Dimension(118, 34));
@@ -79,7 +79,7 @@ public class Interfaz extends javax.swing.JFrame {
         BotDoblar.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         BotDoblar.setForeground(new java.awt.Color(0, 0, 0));
         BotDoblar.setText("DOBLAR");
-        BotDoblar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BotDoblar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         Background.add(BotDoblar, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 600, 190, 60));
 
         Titulo.setFont(new java.awt.Font("Georgia", 1, 48)); // NOI18N

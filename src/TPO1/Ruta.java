@@ -13,6 +13,7 @@ import javax.xml.transform.OutputKeys;
  * @author jerexio
  */
 public class Ruta {
+    private int[][] posiciones;
     private Ubicacion[] puntosPiquete;
     private Colectivo colectivo;
 

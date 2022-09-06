@@ -15,14 +15,12 @@ public class Main {
         
         OrganizadorSindicatos org = new OrganizadorSindicatos(piqueteros);
         
-        Sindicato sin = new Sindicato(org);
-        sin.ejecutar();
+        Sindicato[] sin = new Sindicato[3];
         
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException ex) {
+        for(int i = 0; i < 3; i++){
+            sin[i] = new Sindicato(org);
+            sin[i].ejecutar();
         }
-        System.out.println("HORA DE MATARAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        sin.fin();
+        
     }
 }

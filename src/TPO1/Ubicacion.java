@@ -14,22 +14,21 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author jerexio
  */
 public class Ubicacion {
-    private static HashMap<Ubicacion, Ubicacion> ingresoARutas;
     private static AtomicInteger idCont = new AtomicInteger(0);
     
     private int idRuta;
     private String nombreRuta;
-    private int km;
+    private int posX;
+    private int posY;
 
     public Ubicacion(String nombreRuta) {
         this.nombreRuta = nombreRuta;
-        this.km = 0;
     }
     
     public Ubicacion(String nombreRuta, int km) {
         this.idRuta = idCont.incrementAndGet();
         this.nombreRuta = nombreRuta;
-        this.km = km;
+        this.km = km
     }
     
     public void conectarRutas(Ubicacion rutaActual, Ubicacion rutaSiguiente){
