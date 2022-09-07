@@ -4,17 +4,27 @@
  */
 package Interfaz;
 
+import TPO1.Ruta;
+
 /**
  *
  * @author Usuario
  */
 public class Interfaz extends javax.swing.JFrame {
 
+    private Ruta ruta;
+    
     /**
      * Creates new form Interfaz
      */
     public Interfaz() {
         initComponents();
+    }
+    
+    public Interfaz(Ruta ruta) {
+        initComponents();
+        this.ruta = ruta;
+        this.setVisible(true);
     }
 
     /**
@@ -27,7 +37,7 @@ public class Interfaz extends javax.swing.JFrame {
     private void initComponents() {
 
         Background = new javax.swing.JPanel();
-        Colectivo = new javax.swing.JLabel();
+        colectivo = new javax.swing.JLabel();
         BotEsperar = new javax.swing.JButton();
         BotSeguir = new javax.swing.JButton();
         BotDoblar = new javax.swing.JButton();
@@ -39,20 +49,22 @@ public class Interfaz extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
         setResizable(false);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Background.setBackground(new java.awt.Color(255, 255, 255));
         Background.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         Background.setFocusTraversalPolicyProvider(true);
+        Background.setPreferredSize(new java.awt.Dimension(1300, 700));
         Background.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Colectivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/redimensionCole2.png"))); // NOI18N
-        Background.add(Colectivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 310, 120, 30));
+        colectivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/redimensionCole2.png"))); // NOI18N
+        Background.add(colectivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 300, 120, 30));
 
         BotEsperar.setBackground(new java.awt.Color(51, 255, 51));
         BotEsperar.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         BotEsperar.setForeground(new java.awt.Color(0, 0, 0));
         BotEsperar.setText("ESPERAR");
-        BotEsperar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        BotEsperar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         BotEsperar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotEsperarActionPerformed(evt);
@@ -64,7 +76,7 @@ public class Interfaz extends javax.swing.JFrame {
         BotSeguir.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         BotSeguir.setForeground(new java.awt.Color(0, 0, 0));
         BotSeguir.setText("SEGUIR");
-        BotSeguir.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        BotSeguir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         BotSeguir.setMaximumSize(new java.awt.Dimension(118, 34));
         BotSeguir.setMinimumSize(new java.awt.Dimension(118, 34));
         BotSeguir.setPreferredSize(new java.awt.Dimension(118, 34));
@@ -79,13 +91,18 @@ public class Interfaz extends javax.swing.JFrame {
         BotDoblar.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         BotDoblar.setForeground(new java.awt.Color(0, 0, 0));
         BotDoblar.setText("DOBLAR");
-        BotDoblar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        BotDoblar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BotDoblar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotDoblarActionPerformed(evt);
+            }
+        });
         Background.add(BotDoblar, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 600, 190, 60));
 
         Titulo.setFont(new java.awt.Font("Georgia", 1, 48)); // NOI18N
         Titulo.setForeground(new java.awt.Color(0, 0, 0));
-        Titulo.setText("Juego del Colectivo");
-        Background.add(Titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 20, 490, 70));
+        Titulo.setText("Simulacion Colectivo");
+        Background.add(Titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 20, -1, 70));
 
         Noticiero.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/noticiero (2).jpg"))); // NOI18N
         Background.add(Noticiero, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, 410, 130));
@@ -99,72 +116,79 @@ public class Interfaz extends javax.swing.JFrame {
         RutaCompleta.setText("jLabel1");
         Background.add(RutaCompleta, new org.netbeans.lib.awtextra.AbsoluteConstraints(-90, 90, 1370, 510));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Background, javax.swing.GroupLayout.DEFAULT_SIZE, 1300, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Background, javax.swing.GroupLayout.DEFAULT_SIZE, 694, Short.MAX_VALUE)
-        );
+        getContentPane().add(Background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 700));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void BotEsperarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotEsperarActionPerformed
-        // TODO add your handling code here:
+        ruta.esperar();
     }//GEN-LAST:event_BotEsperarActionPerformed
 
     private void BotSeguirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotSeguirActionPerformed
-        // TODO add your handling code here:
+        ruta.seguir();
     }//GEN-LAST:event_BotSeguirActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Interfaz().setVisible(true);
-            }
-        });
-    }
+    private void BotDoblarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotDoblarActionPerformed
+        ruta.doblar();
+    }//GEN-LAST:event_BotDoblarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Background;
     private javax.swing.JButton BotDoblar;
     private javax.swing.JButton BotEsperar;
     private javax.swing.JButton BotSeguir;
-    private javax.swing.JLabel Colectivo;
     private javax.swing.JLabel Noticiero;
     private javax.swing.JLabel NoticieroCartel;
     private javax.swing.JLabel RutaCompleta;
     private javax.swing.JLabel Titulo;
+    private javax.swing.JLabel colectivo;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * Desplaza al objeto grafico del colectivo
+     * @param X -> Se corresponde con la columna de la matriz
+     * @param Y -> Se corresponde con la fila de la matriz
+     */
+    public void moverColectivo(int nuevaX, int nuevaY){
+        int posX = colectivo.getLocation().x;
+        int posY = colectivo.getLocation().y;
+        
+        
+        for(int i = 0; i < (nuevaY-posY); i++){
+            colectivo.setLocation(colectivo.getLocation().x, (colectivo.getLocation().y+i));
+            System.out.println("update");
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException ex) {
+            }
+        }
+        
+        System.out.println(nuevaX-posX);
+        if(nuevaX-posX < 0){
+            for(int i = 0; i > nuevaX-posX; i--){
+                colectivo.setLocation((colectivo.getLocation().x-1), colectivo.getLocation().y);
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException ex) {
+                }
+            }
+        }
+        else{
+            if(nuevaX-posX > 0){
+                for(int i = 0; i < nuevaX-posX; i++){
+                    colectivo.setLocation((colectivo.getLocation().x+1), colectivo.getLocation().y);
+                    System.out.println(i);
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException ex) {
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     * String --> Grafico
+     */
 }
