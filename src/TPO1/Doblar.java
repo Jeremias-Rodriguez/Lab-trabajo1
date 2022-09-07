@@ -10,16 +10,30 @@ package TPO1;
  */
 public class Doblar implements EstrategiaCoduccion {
 
+    private Mapa mapa;
+    
+    public Doblar(Mapa mapa){
+        this.mapa = mapa;
+    }
+    
     @Override
     public void conducir(Colectivo colectivo) {
-        Ubicacion 
-                ubic = colectivo.getUbicacion(),
-                nuevaUbic = Ubicacion.obtenerSiguenteRuta(ubic);
+        Ubicacion ubic = colectivo.getUbicacion();
         
-        if(ubic != null)
-            ubic.actualizarUbicacion(nuevaUbic.getNombreRuta(), 0);
-        else
-            System.out.println("No puede cambiar de ruta");
+        int X = ubic.getPosX(),
+            Y = ubic.getPosY();
+        
+        if(mapa.desplazarColectivo(X, Y, X+1, Y)){
+            ubic.actualizarUbicacion(X+1, Y);
+        }
+        else{
+            if(mapa.desplazarColectivo(X, Y, X-1, Y)){
+                ubic.actualizarUbicacion(X-1, Y);
+            }
+            else{
+                System.out.println("No se puede doblar");
+            }
+        }
     }
     
 }
