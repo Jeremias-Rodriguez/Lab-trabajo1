@@ -4,9 +4,6 @@
  */
 package TPO1;
 
-import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicInteger;
-
 /**
  * Esta clase tiene 2 principales funcionalidades
  * - Ser un indicador de donde esta un objeto actualmente en la ruta
@@ -14,52 +11,30 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author jerexio
  */
 public class Ubicacion {
-    private static AtomicInteger idCont = new AtomicInteger(0);
-    
-    private int idRuta;
     private String nombreRuta;
     private int posX;
     private int posY;
 
-    public Ubicacion(String nombreRuta) {
+    public Ubicacion(String nombreRuta, int posX, int posY) {
         this.nombreRuta = nombreRuta;
-    }
-    
-    public Ubicacion(String nombreRuta, int km) {
-        this.idRuta = idCont.incrementAndGet();
-        this.nombreRuta = nombreRuta;
-        this.km = km
-    }
-    
-    public void conectarRutas(Ubicacion rutaActual, Ubicacion rutaSiguiente){
-        ingresoARutas.put(rutaActual, rutaSiguiente);
+        this.posX = posX;
+        this.posY = posY;
     }
     
     public String getNombreRuta() {
         return nombreRuta;
     }
 
-    public int getKm() {
-        return km;
-    }
-    
-    public void actualizarUbicacion(String nuevaRuta, int km){
-        this.nombreRuta = nuevaRuta;
-        this.km = km;
+    public synchronized void actualizarUbicacion(int x, int y){
+        posX = x;
+        posY = y;
     }
 
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-    
-    
-    public static Ubicacion obtenerSiguenteRuta(Ubicacion ubicacionActual){
-        return ingresoARutas.get(ubicacionActual);
+    public synchronized int getPosX() {
+        return posX;
     }
 
-    @Override
-    public String toString() {
-        return "{"+nombreRuta + ", " + km + '}';
+    public synchronized int getPosY() {
+        return posY;
     }
 }

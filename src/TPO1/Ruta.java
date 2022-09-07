@@ -5,7 +5,6 @@
 package TPO1;
 
 import java.util.Scanner;
-import javax.xml.transform.OutputKeys;
 
 /**
  * Punto de interacion entre colectivo y piqueteros
@@ -13,16 +12,16 @@ import javax.xml.transform.OutputKeys;
  * @author jerexio
  */
 public class Ruta {
-    private int[][] posiciones;
-    private Ubicacion[] puntosPiquete;
+    private Mapa mapa;
     private Colectivo colectivo;
-
+    private Ubicacion posActualColectivo;
+    
     private Scanner input = new Scanner(System.in);
     
-    public Ruta(Ubicacion[] cambiosDeCalle, Ubicacion[] puntosPiquete, Colectivo colectivo) {
-        //this.cambiosDeCalle = cambiosDeCalle;
-        this.puntosPiquete = puntosPiquete;
+    public Ruta(Mapa mapa, Colectivo colectivo) {
+        this.mapa = mapa;
         this.colectivo = colectivo;
+        this.posActualColectivo = colectivo.getUbicacion();
     }
     
     public void inicio(){
@@ -31,37 +30,26 @@ public class Ruta {
         System.out.println("Durante tu aventura apareceran piqueteros con protestas"
                 + " justas");
         System.out.println("Buena suerte");
+        
+        System.out.print("Usted se encuentra en: ");
+        System.out.println(posActualColectivo.getNombreRuta());
     }
     
-    public void empezar(){
+    public void ejecutar(){
         boolean llegoADestino = false;
         int opcion = 0;
-        
+        llegoADestino = mapa.esDestino(posActualColectivo.getPosX(), posActualColectivo.getPosY()+1);
+    }
+    
+    public void seguir(){
         colectivo.ejecutarEstrategia(new Seguir());
-        
-        while(!llegoADestino){
-            System.out.println("Usted se encuentra en: ");
-            Ubicacion ubicacion = colectivo.getUbicacion();
-            System.out.println(ubicacion.getNombreRuta()+" - "+ubicacion.getKm());
-            
-            System.out.println("Que desea hacer?");
-            opcion = input.nextInt();
-            switch(opcion){
-                case 1:
-                    colectivo.ejecutarEstrategia(new Seguir());
-                    
-                    break;
-                case 2:
-                    colectivo.ejecutarEstrategia(new Esperar());
-                    break;
-                case 3:
-                    colectivo.ejecutarEstrategia(new Doblar());
-                    break;
-                default:
-                    System.out.println("No");
-                    break;
-            }
-        }
-        
+    }
+    
+    public void esperar(){
+        colectivo.ejecutarEstrategia(new Esperar());
+    }
+    
+    public void doblar(){
+        colectivo.ejecutarEstrategia(new Doblar(mapa));
     }
 }
