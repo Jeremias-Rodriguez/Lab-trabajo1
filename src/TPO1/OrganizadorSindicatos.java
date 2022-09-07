@@ -17,25 +17,19 @@ public class OrganizadorSindicatos {
     
     private Piquteros piqueteros;
     private Lista lugaresParaPiquete;
+    private Mapa mapa;
     
-    
-    /**
-     * ESTO NO ES UN BUFFER CAMBIAR NOMBRE
-     * @param buffer 
-     */
-    public OrganizadorSindicatos(Piquteros buffer){
-        piqueteros = buffer;
-        lugaresParaPiquete = new Lista();
-        lugaresParaPiquete.insertar(new Ubicacion("Ruta1",3), 1);
-        lugaresParaPiquete.insertar(new Ubicacion("Ruta1",10), 1);
-        lugaresParaPiquete.insertar(new Ubicacion("Ruta2",5), 1);
-        lugaresParaPiquete.insertar(new Ubicacion("Ruta3",2), 1);
-    }
-    
-    public synchronized Piquete establecerPiqueteEnUbicacion(){
-        Piquete nuevoPiquete = crearPiquete();
+    public OrganizadorSindicatos(Piquteros piqueteros, Mapa mapa){
+        this.piqueteros = piqueteros;
+        this.mapa = mapa;
         
-        return nuevoPiquete;
+        lugaresParaPiquete = new Lista();
+        lugaresParaPiquete.insertar(new Ubicacion("Ruta 1",1,7), 1);
+        lugaresParaPiquete.insertar(new Ubicacion("Ruta 3",3,4), 1);
+        lugaresParaPiquete.insertar(new Ubicacion("Ruta 3",3,6), 1);
+        lugaresParaPiquete.insertar(new Ubicacion("Ruta 3",3,8), 1);
+        lugaresParaPiquete.insertar(new Ubicacion("Ruta 3",3,10), 1);
+        lugaresParaPiquete.insertar(new Ubicacion("Ruta 5",5,5), 1);
     }
     
     public boolean mandarPiquete(Piquete piquete){
@@ -47,30 +41,35 @@ public class OrganizadorSindicatos {
     }
     
     private synchronized Callable crearTareaPiquete(Piquete nuevoPiquete){
-        
         Callable piquete = null;
         if(nuevoPiquete != null){
             piquete = new Callable() {
                 @Override
                 public Object call() {
-                    System.out.println(Thread.currentThread().getName() + " haciendo piquete en "
-                            + nuevoPiquete.mostrarPiquete());
-
-                    try {
-                        Thread.sleep(nuevoPiquete.getDuracionMillis());
-                    } catch (InterruptedException ex) {
-                        System.out.println("Al parecer la policia reprimio a los piqueteros");
+                    boolean exito = false;
+                    Ubicacion lugar = nuevoPiquete.getUbicacion();
+                    int posX = lugar.getPosX(),
+                        posY = lugar.getPosY();
+                    
+                    if(mapa.establecerPiquete(posX, posY)){
+                        try {
+                            Thread.sleep(nuevoPiquete.getDuracionMillis());
+                        } catch (InterruptedException ex) {
+                            System.out.println("Error Organizador de sindicatos - Linea 56");
+                        }
+                        mapa.destablecerPiquete(posX, posY);
+                        exito = new Random().nextBoolean();
                     }
-                    return new Random().nextBoolean();
+                    
+                    return exito;
                 }
             };
         }
-        System.out.println("Ya arme la task");
         
         return piquete;
     }
     
-    private synchronized Piquete crearPiquete(){
+    public synchronized Piquete crearPiquete(){
         Random random = new Random();
         Piquete nuevoPiquete = null;
         
@@ -78,10 +77,10 @@ public class OrganizadorSindicatos {
             int num = (random.nextInt(lugaresParaPiquete.longitud()))+1;
             
             Ubicacion ubic = (Ubicacion)lugaresParaPiquete.recuperar(num);
-            System.out.println(num);
+            
             lugaresParaPiquete.eliminar(num);
 
-            long duracion = random.nextInt(5) * 1000;
+            long duracion = (random.nextInt(10)+1) * 1000;
             nuevoPiquete = new Piquete(ubic, duracion);
         }
         

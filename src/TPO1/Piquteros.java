@@ -19,17 +19,15 @@ public class Piquteros {
     private ScheduledThreadPoolExecutor piqueteros = new ScheduledThreadPoolExecutor(numPiqueterosTotal);
 
     public boolean realizarPiquete(Callable piquete) {
-        System.out.println("\nDENTROOO\n");
-        
         Future<Boolean> exito = piqueteros.submit(piquete);
         
         boolean ubic = false;
         try {
             ubic = exito.get();
         } catch (InterruptedException ex) {
-            System.out.println("ERrOR de interrupcion");
+            ex.printStackTrace();
         } catch (ExecutionException ex) {
-            System.out.println("ERROR de ejecucion");
+            ex.printStackTrace();
         }
         
         return ubic;

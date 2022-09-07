@@ -5,8 +5,6 @@
  */
 package TPO1;
 
-import java.util.concurrent.Callable;
-
 /**
  *
  * @author repetto.francisco
@@ -35,10 +33,6 @@ public class Piquete {
 
     public void setDuracionMillis(long duracionMillis) {
         this.duracionMillis = duracionMillis;
-    }
-    
-    public String mostrarPiquete(){
-        return ubicacion.toString() + " que dura "+duracionMillis/1000+" segundos";
     }
     
 }

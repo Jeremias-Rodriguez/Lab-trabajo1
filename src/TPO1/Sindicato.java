@@ -4,8 +4,6 @@
  */
 package TPO1;
 
-import java.util.Random;
-import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -20,8 +18,6 @@ public class Sindicato extends Thread {
     private OrganizadorSindicatos organizador;
     private int piquetesExitosos = 0;
     
-    private long tiempoIni;
-    private long tiempoFin;
     private final ScheduledExecutorService jefeSindicato =
      Executors.newScheduledThreadPool(1);
     
@@ -33,31 +29,26 @@ public class Sindicato extends Thread {
     Runnable tarea = new Runnable(){
     @Override
     public void run(){
-        Random random = new Random();
-        tiempoIni = System.currentTimeMillis();
-        tiempoFin = System.currentTimeMillis() + (random.nextInt(200)*1000);
-        
-        Piquete piquete = organizador.establecerPiqueteEnUbicacion();
+        Piquete piquete = organizador.crearPiquete();
 
         boolean exito = (boolean)organizador.mandarPiquete(piquete);
         piquetesExitosos += (exito) ? 1 : 0;
 
-        System.out.println(Thread.currentThread().getName()+" - "+piquete.getUbicacion().toString());
-
         organizador.finalizarPiquete(piquete.getUbicacion());
-
-        tiempoIni = System.currentTimeMillis();
     }
     };
     
     public void ejecutar(){
         final ScheduledFuture automatizador = 
-            jefeSindicato.scheduleAtFixedRate(tarea, 10, 1000, TimeUnit.MILLISECONDS);
+            jefeSindicato.scheduleAtFixedRate(tarea, 10, 10000, TimeUnit.MILLISECONDS);
+        
+        /**
+         * Pone un "tope" de creacion de piquetes.
+         */
         jefeSindicato.schedule(new Runnable(){
             public void run(){
                 automatizador.cancel(true);
-                System.out.println("El horario de protesta finalizis");
             }
-        }, 1000, TimeUnit.MILLISECONDS);
+        }, 90, TimeUnit.SECONDS);
     }
 }
