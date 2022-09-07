@@ -5,6 +5,7 @@
 package Interfaz;
 
 import TPO1.Ruta;
+import java.awt.Graphics;
 
 /**
  *
@@ -17,10 +18,6 @@ public class Interfaz extends javax.swing.JFrame {
     /**
      * Creates new form Interfaz
      */
-    public Interfaz() {
-        initComponents();
-    }
-    
     public Interfaz(Ruta ruta) {
         initComponents();
         this.ruta = ruta;
@@ -153,42 +150,38 @@ public class Interfaz extends javax.swing.JFrame {
     public void moverColectivo(int nuevaX, int nuevaY){
         int posX = colectivo.getLocation().x;
         int posY = colectivo.getLocation().y;
-        
-        
-        for(int i = 0; i < (nuevaY-posY); i++){
-            colectivo.setLocation(colectivo.getLocation().x, (colectivo.getLocation().y+i));
-            System.out.println("update");
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException ex) {
-            }
-        }
-        
-        System.out.println(nuevaX-posX);
-        if(nuevaX-posX < 0){
-            for(int i = 0; i > nuevaX-posX; i--){
-                colectivo.setLocation((colectivo.getLocation().x-1), colectivo.getLocation().y);
+          
+        int limY = (nuevaY-posY);
+        if(limY > 0){
+            //ROTAR
+            for(int i = 0; i < limY; i++){
+                posY++;
+                colectivo.setLocation(posX, posY);
                 try {
-                    Thread.sleep(50);
+                    Thread.sleep(10);
                 } catch (InterruptedException ex) {
                 }
             }
         }
         else{
-            if(nuevaX-posX > 0){
-                for(int i = 0; i < nuevaX-posX; i++){
-                    colectivo.setLocation((colectivo.getLocation().x+1), colectivo.getLocation().y);
-                    System.out.println(i);
-                    try {
-                        Thread.sleep(50);
-                    } catch (InterruptedException ex) {
-                    }
+            for(int i = 0; i > limY; i--){
+                posY--;
+                colectivo.setLocation(posX, posY);
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException ex) {
                 }
             }
         }
+        
+        int limX = nuevaX-posX;
+        for(int i = 0; i < limX; i++){
+            posX++;
+            colectivo.setLocation(posX, posY);
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException ex) {
+            }
+        }
     }
-    
-    /**
-     * String --> Grafico
-     */
 }

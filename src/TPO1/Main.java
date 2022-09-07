@@ -15,7 +15,7 @@ public class Main {
     public static void main(String[] args) {
         Piquteros piqueteros = new Piquteros();
         
-        int[][] plano = new int[7][13];
+        int[][] plano = new int[7][26];
 
         Precargador.precargar(plano);
         

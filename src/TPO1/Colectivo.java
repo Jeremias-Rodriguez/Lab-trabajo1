@@ -49,9 +49,7 @@ public class Colectivo extends Thread {
         while(!llegoADestino){
             if(velocidad > 0){
                 desplazar();
-                System.out.println(posActual.getPosY()*100);
-                System.out.println(posActual.getPosX()*100);
-                interfaz.moverColectivo(posActual.getPosY()*100, posActual.getPosX()*100);
+                interfaz.moverColectivo(posActual.getPosY()*50, posActual.getPosX()*100);
             }
             try {
                 Thread.sleep(1000);

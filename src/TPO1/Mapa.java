@@ -36,12 +36,12 @@ public class Mapa {
         boolean seActualizo = false;
         
         if(mapa[Xactual][Yfuturo] == 44){
-            
-            if(mapa[Xfuturo][Yactual] == 0){
+            if(mapa[Xfuturo][Yactual] == 0 | mapa[Xfuturo][Yactual] == 4){
                 mapa[Xactual][Yactual] = -1;
                 mapa[Xfuturo][Yactual] = 3;
+                
+                seActualizo = true;
             }
-            seActualizo = true;
         }
         
         return seActualizo;
