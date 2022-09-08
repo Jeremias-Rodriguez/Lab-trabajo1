@@ -25,16 +25,15 @@ public class OrganizadorSindicatos {
     public OrganizadorSindicatos(Piquteros piqueteros, Mapa mapa, Interfaz interfaz){
         this.piqueteros = piqueteros;
         this.mapa = mapa;
+        this.interfaz = interfaz;
         
         lugaresParaPiquete = new Lista();
-        lugaresParaPiquete.insertar(new Ubicacion("Ruta 1",1,7), 1);
-        lugaresParaPiquete.insertar(new Ubicacion("Ruta 3",3,4), 1);
+        lugaresParaPiquete.insertar(new Ubicacion("Ruta 1",1,17), 1);
         lugaresParaPiquete.insertar(new Ubicacion("Ruta 3",3,6), 1);
-        lugaresParaPiquete.insertar(new Ubicacion("Ruta 3",3,8), 1);
-        lugaresParaPiquete.insertar(new Ubicacion("Ruta 3",3,10), 1);
-        lugaresParaPiquete.insertar(new Ubicacion("Ruta 5",5,5), 1);
-
-		this.interfaz = interfaz;
+        lugaresParaPiquete.insertar(new Ubicacion("Ruta 3",3,16), 1);
+        lugaresParaPiquete.insertar(new Ubicacion("Ruta 3",3,19), 1);
+        lugaresParaPiquete.insertar(new Ubicacion("Ruta 3",3,22), 1);
+        lugaresParaPiquete.insertar(new Ubicacion("Ruta 5",5,9), 1);
     }
     
     public boolean mandarPiquete(Piquete piquete){
@@ -44,7 +43,8 @@ public class OrganizadorSindicatos {
     public synchronized void finalizarPiquete(Ubicacion ubicacion){
         lugaresParaPiquete.insertar(ubicacion, 1);
     }
-    private synchronized Callable crearTareaPiquete(Piquete nuevoPiquete){
+    
+    private Callable crearTareaPiquete(Piquete nuevoPiquete){
         Callable piquete = null;
         if(nuevoPiquete != null){
             piquete = new Callable() {
@@ -59,16 +59,22 @@ public class OrganizadorSindicatos {
                     if(mapa.establecerPiquete(posX, posY)){
                         interfaz.informarANoticiero("INICIO de un piquete en la "+lugar.getNombreRuta()+
                             " km "+lugar.getPosX()*lugar.getPosY());
-                        JLabel piquetero = interfaz.colocarImagenPiqueteros(posX,posY);
+                        
+                        JLabel labelDelete = interfaz.aparecerPiqueteros(posY*50, posX*100);
+                        
                         try {
                             Thread.sleep(nuevoPiquete.getDuracionMillis());
                         } catch (InterruptedException ex) {
                             System.out.println("Error Organizador de sindicatos - Linea 56");
+                            ex.printStackTrace();
                         }
+                        
                         mapa.destablecerPiquete(posX, posY);
                         interfaz.informarANoticiero("FINALIZO el piquete en la "+lugar.getNombreRuta()+
                             " km "+lugar.getPosX()*lugar.getPosY());
-                        interfaz.sacarImagenPiqueteros(piquetero);
+                        
+                        interfaz.sacarImagen(labelDelete);
+                        
                         exito = new Random().nextBoolean();
                     }
                     

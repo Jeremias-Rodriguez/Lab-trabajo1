@@ -43,7 +43,7 @@ public class Sindicato extends Thread {
     public void ejecutar(){
         Random random = new Random();
         final ScheduledFuture automatizador = 
-            jefeSindicato.scheduleAtFixedRate(tarea, random.nextInt(8)*1000, 10000, TimeUnit.MILLISECONDS);
+            jefeSindicato.scheduleAtFixedRate(tarea, (random.nextInt(8)+2)*1000, 10000, TimeUnit.MILLISECONDS);
         
         /**
          * Pone un "tope" de creacion de piquetes.

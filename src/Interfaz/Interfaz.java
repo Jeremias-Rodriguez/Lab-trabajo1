@@ -4,8 +4,21 @@
  */
 package Interfaz;
 
-import TPO1.Ruta;
-import java.awt.Graphics;
+import TPO1.Chofer;
+import TPO1.Colectivo;
+import TPO1.Doblar;
+import TPO1.Esperar;
+import TPO1.Mapa;
+import TPO1.OrganizadorSindicatos;
+import TPO1.Piquteros;
+import TPO1.Precargador;
+import TPO1.Seguir;
+import TPO1.Sindicato;
+import TPO1.Ubicacion;
+import java.awt.Container;
+import java.util.concurrent.atomic.AtomicInteger;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 /**
@@ -14,15 +27,55 @@ import javax.swing.JLabel;
  */
 public class Interfaz extends javax.swing.JFrame {
 
-    private Ruta ruta;
+    private Colectivo colectivo;
+    private Mapa mapa;
     
     /**
      * Creates new form Interfaz
      */
-    public Interfaz(Ruta ruta) {
+    public Interfaz() {
         initComponents();
-        this.ruta = ruta;
         this.setVisible(true);
+    }
+    
+    public void iniciar(){
+        Piquteros piqueteros = new Piquteros();
+        
+        int[][] plano = new int[7][26];
+
+        Precargador.precargar(plano);
+        
+        this.mapa = new Mapa(plano);
+        
+//        Thread hilo = new Thread(){
+//            public void run(){
+//                while(true){
+//                    mapa.mostrarMapa();
+//                    try {
+//                        Thread.sleep(1000);
+//                    } catch (InterruptedException ex) {
+//                        System.err.println("El colectivo pincho para siempre");
+//                    }
+//                    System.out.println("\n\n\n\n");
+//                }
+//            }
+//        };
+//        hilo.start();
+        
+        Ubicacion posInicial = new Ubicacion("Ruta 3", 3, 1);
+        this.colectivo = new Colectivo(posInicial, mapa);
+        
+        OrganizadorSindicatos org = new OrganizadorSindicatos(piqueteros, mapa,this);
+        
+        int cantSind = 4;
+        
+        for(int i = 0; i < cantSind; i++){
+            Sindicato sin = new Sindicato(org);
+            sin.ejecutar();
+        }
+
+        Chofer chofer = new Chofer(colectivo, mapa, this);
+        chofer.start();
     }
 
     /**
@@ -35,7 +88,7 @@ public class Interfaz extends javax.swing.JFrame {
     private void initComponents() {
 
         Background = new javax.swing.JPanel();
-        colectivo = new javax.swing.JLabel();
+        colectivoLabel = new javax.swing.JLabel();
         BotEsperar = new javax.swing.JButton();
         BotSeguir = new javax.swing.JButton();
         BotDoblar = new javax.swing.JButton();
@@ -44,6 +97,7 @@ public class Interfaz extends javax.swing.JFrame {
         NoticieroCartel = new javax.swing.JLabel();
         informacionCartel = new javax.swing.JScrollPane();
         informacionTexto = new javax.swing.JTextArea();
+        fondo = new javax.swing.JLabel();
         RutaCompleta = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -57,8 +111,8 @@ public class Interfaz extends javax.swing.JFrame {
         Background.setPreferredSize(new java.awt.Dimension(1300, 700));
         Background.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        colectivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/redimensionCole2.png"))); // NOI18N
-        Background.add(colectivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 300, 120, 30));
+        colectivoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/redimensionCole2.png"))); // NOI18N
+        Background.add(colectivoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 300, 120, 30));
 
         BotEsperar.setBackground(new java.awt.Color(51, 153, 255));
         BotEsperar.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
@@ -131,6 +185,10 @@ public class Interfaz extends javax.swing.JFrame {
 
         Background.add(informacionCartel, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 170, 380, 90));
 
+        fondo.setMinimumSize(new java.awt.Dimension(1300, 700));
+        fondo.setPreferredSize(new java.awt.Dimension(1300, 700));
+        Background.add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
         RutaCompleta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/RutaDibujo.jpg"))); // NOI18N
         RutaCompleta.setText("jLabel1");
         Background.add(RutaCompleta, new org.netbeans.lib.awtextra.AbsoluteConstraints(-90, 90, 1370, 510));
@@ -141,15 +199,15 @@ public class Interfaz extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BotEsperarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotEsperarActionPerformed
-        ruta.esperar();
+        colectivo.ejecutarEstrategia(new Esperar());
     }//GEN-LAST:event_BotEsperarActionPerformed
 
     private void BotSeguirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotSeguirActionPerformed
-        ruta.seguir();
+        colectivo.ejecutarEstrategia(new Seguir());
     }//GEN-LAST:event_BotSeguirActionPerformed
 
     private void BotDoblarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotDoblarActionPerformed
-        ruta.doblar();
+        colectivo.ejecutarEstrategia(new Doblar(mapa));
     }//GEN-LAST:event_BotDoblarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -161,7 +219,8 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JLabel NoticieroCartel;
     private javax.swing.JLabel RutaCompleta;
     private javax.swing.JLabel Titulo;
-    private javax.swing.JLabel colectivo;
+    private javax.swing.JLabel colectivoLabel;
+    private javax.swing.JLabel fondo;
     private javax.swing.JScrollPane informacionCartel;
     private javax.swing.JTextArea informacionTexto;
     // End of variables declaration//GEN-END:variables
@@ -172,15 +231,15 @@ public class Interfaz extends javax.swing.JFrame {
      * @param Y -> Se corresponde con la fila de la matriz
      */
     public void moverColectivo(int nuevaX, int nuevaY){
-        int posX = colectivo.getLocation().x;
-        int posY = colectivo.getLocation().y;
+        int posX = colectivoLabel.getLocation().x;
+        int posY = colectivoLabel.getLocation().y;
           
         int limY = (nuevaY-posY);
         if(limY > 0){
             //ROTAR
             for(int i = 0; i < limY; i++){
                 posY++;
-                colectivo.setLocation(posX, posY);
+                colectivoLabel.setLocation(posX, posY);
                 try {
                     Thread.sleep(10);
                 } catch (InterruptedException ex) {
@@ -190,7 +249,7 @@ public class Interfaz extends javax.swing.JFrame {
         else{
             for(int i = 0; i > limY; i--){
                 posY--;
-                colectivo.setLocation(posX, posY);
+                colectivoLabel.setLocation(posX, posY);
                 try {
                     Thread.sleep(10);
                 } catch (InterruptedException ex) {
@@ -201,7 +260,7 @@ public class Interfaz extends javax.swing.JFrame {
         int limX = nuevaX-posX;
         for(int i = 0; i < limX; i++){
             posX++;
-            colectivo.setLocation(posX, posY);
+            colectivoLabel.setLocation(posX, posY);
             try {
                 Thread.sleep(10);
             } catch (InterruptedException ex) {
@@ -215,17 +274,21 @@ public class Interfaz extends javax.swing.JFrame {
         informacionTexto.setCaretPosition(informacionTexto.getDocument().getLength());
     }
 
-    public JLabel colocarImagenPiqueteros(int posX,int posY) {
-        //Retorna un JLabel para que despues pueda setearlo a null*/
+    AtomicInteger cont = new AtomicInteger(0);
+    public JLabel aparecerPiqueteros(int posX, int posY) {
+        
         JLabel piquetero = new JLabel();
-        piquetero.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Piqueteros.png")));
-        //Probe con esto pero no me salio ;( tome como ejemplo el label de noticiero
-        Background.add(piquetero, new org.netbeans.lib.awtextra.AbsoluteConstraints(posX, posY, 410, 130));
-        piquetero.setLocation(posX,posY);
+        
+        fondo.add(piquetero);
+        
+        piquetero.setIcon(new ImageIcon("/home/jerexio/NetBeansProjects/Lab3-Trabajo1/src/Imagenes/Piqueteros.png"));
+        piquetero.setBounds(posX, posY, 100, 74);
+        
         return piquetero;
     }
 
-    public void sacarImagenPiqueteros(JLabel piquetero) {
-        piquetero.setIcon(null);
+    public void sacarImagen(JLabel labelDelete) {
+         labelDelete.setVisible(false);
+        fondo.remove(labelDelete);
     }
 }

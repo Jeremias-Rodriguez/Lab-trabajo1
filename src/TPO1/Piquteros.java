@@ -15,7 +15,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
  * @author repetto.francisco
  */
 public class Piquteros {
-    private int numPiqueterosTotal = 5;
+    private int numPiqueterosTotal = 2;
     private ScheduledThreadPoolExecutor piqueteros = new ScheduledThreadPoolExecutor(numPiqueterosTotal);
 
     public boolean realizarPiquete(Callable piquete) {

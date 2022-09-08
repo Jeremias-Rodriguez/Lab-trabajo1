@@ -77,4 +77,8 @@ public class Mapa {
             System.out.println("");
         }
     }
+    
+    public boolean esEsquina(int posX, int posY){
+        return (mapa[posX+1][posY] == 0 || mapa[posX-1][posY] == 0);
+    }
 }
