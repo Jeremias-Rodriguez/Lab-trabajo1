@@ -4,6 +4,8 @@
  */
 package TPO1;
 
+import static java.lang.Math.random;
+import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -39,8 +41,9 @@ public class Sindicato extends Thread {
     };
     
     public void ejecutar(){
+        Random random = new Random();
         final ScheduledFuture automatizador = 
-            jefeSindicato.scheduleAtFixedRate(tarea, 10, 10000, TimeUnit.MILLISECONDS);
+            jefeSindicato.scheduleAtFixedRate(tarea, random.nextInt(8)*1000, 10000, TimeUnit.MILLISECONDS);
         
         /**
          * Pone un "tope" de creacion de piquetes.

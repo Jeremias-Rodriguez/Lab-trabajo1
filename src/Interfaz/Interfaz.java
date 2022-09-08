@@ -6,6 +6,7 @@ package Interfaz;
 
 import TPO1.Ruta;
 import java.awt.Graphics;
+import javax.swing.JLabel;
 
 /**
  *
@@ -41,6 +42,8 @@ public class Interfaz extends javax.swing.JFrame {
         Titulo = new javax.swing.JLabel();
         Noticiero = new javax.swing.JLabel();
         NoticieroCartel = new javax.swing.JLabel();
+        informacionCartel = new javax.swing.JScrollPane();
+        informacionTexto = new javax.swing.JTextArea();
         RutaCompleta = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -57,11 +60,11 @@ public class Interfaz extends javax.swing.JFrame {
         colectivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/redimensionCole2.png"))); // NOI18N
         Background.add(colectivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 300, 120, 30));
 
-        BotEsperar.setBackground(new java.awt.Color(51, 255, 51));
+        BotEsperar.setBackground(new java.awt.Color(51, 153, 255));
         BotEsperar.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         BotEsperar.setForeground(new java.awt.Color(0, 0, 0));
         BotEsperar.setText("ESPERAR");
-        BotEsperar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BotEsperar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         BotEsperar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotEsperarActionPerformed(evt);
@@ -69,11 +72,11 @@ public class Interfaz extends javax.swing.JFrame {
         });
         Background.add(BotEsperar, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 600, 190, 60));
 
-        BotSeguir.setBackground(new java.awt.Color(51, 255, 51));
+        BotSeguir.setBackground(new java.awt.Color(51, 153, 255));
         BotSeguir.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         BotSeguir.setForeground(new java.awt.Color(0, 0, 0));
         BotSeguir.setText("SEGUIR");
-        BotSeguir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BotSeguir.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         BotSeguir.setMaximumSize(new java.awt.Dimension(118, 34));
         BotSeguir.setMinimumSize(new java.awt.Dimension(118, 34));
         BotSeguir.setPreferredSize(new java.awt.Dimension(118, 34));
@@ -84,11 +87,11 @@ public class Interfaz extends javax.swing.JFrame {
         });
         Background.add(BotSeguir, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 600, 190, 60));
 
-        BotDoblar.setBackground(new java.awt.Color(51, 255, 51));
+        BotDoblar.setBackground(new java.awt.Color(51, 153, 255));
         BotDoblar.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         BotDoblar.setForeground(new java.awt.Color(0, 0, 0));
         BotDoblar.setText("DOBLAR");
-        BotDoblar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BotDoblar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         BotDoblar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotDoblarActionPerformed(evt);
@@ -108,6 +111,25 @@ public class Interfaz extends javax.swing.JFrame {
         NoticieroCartel.setForeground(new java.awt.Color(51, 153, 255));
         NoticieroCartel.setText("Noticias: ");
         Background.add(NoticieroCartel, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 140, 260, 30));
+
+        informacionCartel.setBackground(new java.awt.Color(255, 255, 255));
+        informacionCartel.setBorder(null);
+        informacionCartel.setForeground(new java.awt.Color(255, 255, 255));
+        informacionCartel.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        informacionCartel.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        informacionCartel.setAutoscrolls(true);
+        informacionCartel.setFocusable(false);
+
+        informacionTexto.setBackground(new java.awt.Color(255, 255, 255));
+        informacionTexto.setColumns(20);
+        informacionTexto.setFont(new java.awt.Font("Bitstream Charter", 1, 20)); // NOI18N
+        informacionTexto.setForeground(new java.awt.Color(0, 0, 0));
+        informacionTexto.setRows(5);
+        informacionTexto.setBorder(null);
+        informacionTexto.setFocusable(false);
+        informacionCartel.setViewportView(informacionTexto);
+
+        Background.add(informacionCartel, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 170, 380, 90));
 
         RutaCompleta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/RutaDibujo.jpg"))); // NOI18N
         RutaCompleta.setText("jLabel1");
@@ -140,6 +162,8 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JLabel RutaCompleta;
     private javax.swing.JLabel Titulo;
     private javax.swing.JLabel colectivo;
+    private javax.swing.JScrollPane informacionCartel;
+    private javax.swing.JTextArea informacionTexto;
     // End of variables declaration//GEN-END:variables
 
     /**
@@ -183,5 +207,25 @@ public class Interfaz extends javax.swing.JFrame {
             } catch (InterruptedException ex) {
             }
         }
+    }
+
+
+    public void informarANoticiero(String mensaje){
+        informacionTexto.append(mensaje.concat("\n"));
+        informacionTexto.setCaretPosition(informacionTexto.getDocument().getLength());
+    }
+
+    public JLabel colocarImagenPiqueteros(int posX,int posY) {
+        //Retorna un JLabel para que despues pueda setearlo a null*/
+        JLabel piquetero = new JLabel();
+        piquetero.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Piqueteros.png")));
+        //Probe con esto pero no me salio ;( tome como ejemplo el label de noticiero
+        Background.add(piquetero, new org.netbeans.lib.awtextra.AbsoluteConstraints(posX, posY, 410, 130));
+        piquetero.setLocation(posX,posY);
+        return piquetero;
+    }
+
+    public void sacarImagenPiqueteros(JLabel piquetero) {
+        piquetero.setIcon(null);
     }
 }

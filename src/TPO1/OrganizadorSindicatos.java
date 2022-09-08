@@ -4,8 +4,10 @@
  */
 package TPO1;
 
+import Interfaz.Interfaz;
 import java.util.Random;
 import java.util.concurrent.Callable;
+import javax.swing.JLabel;
 
 /**
  * Soy un organizador de sindicatos
@@ -18,8 +20,9 @@ public class OrganizadorSindicatos {
     private Piquteros piqueteros;
     private Lista lugaresParaPiquete;
     private Mapa mapa;
+    private Interfaz interfaz;
     
-    public OrganizadorSindicatos(Piquteros piqueteros, Mapa mapa){
+    public OrganizadorSindicatos(Piquteros piqueteros, Mapa mapa, Interfaz interfaz){
         this.piqueteros = piqueteros;
         this.mapa = mapa;
         
@@ -30,6 +33,8 @@ public class OrganizadorSindicatos {
         lugaresParaPiquete.insertar(new Ubicacion("Ruta 3",3,8), 1);
         lugaresParaPiquete.insertar(new Ubicacion("Ruta 3",3,10), 1);
         lugaresParaPiquete.insertar(new Ubicacion("Ruta 5",5,5), 1);
+
+		this.interfaz = interfaz;
     }
     
     public boolean mandarPiquete(Piquete piquete){
@@ -39,7 +44,6 @@ public class OrganizadorSindicatos {
     public synchronized void finalizarPiquete(Ubicacion ubicacion){
         lugaresParaPiquete.insertar(ubicacion, 1);
     }
-    
     private synchronized Callable crearTareaPiquete(Piquete nuevoPiquete){
         Callable piquete = null;
         if(nuevoPiquete != null){
@@ -48,16 +52,23 @@ public class OrganizadorSindicatos {
                 public Object call() {
                     boolean exito = false;
                     Ubicacion lugar = nuevoPiquete.getUbicacion();
+                    //Informa al noticiero
                     int posX = lugar.getPosX(),
                         posY = lugar.getPosY();
                     
                     if(mapa.establecerPiquete(posX, posY)){
+                        interfaz.informarANoticiero("INICIO de un piquete en la "+lugar.getNombreRuta()+
+                            " km "+lugar.getPosX()*lugar.getPosY());
+                        JLabel piquetero = interfaz.colocarImagenPiqueteros(posX,posY);
                         try {
                             Thread.sleep(nuevoPiquete.getDuracionMillis());
                         } catch (InterruptedException ex) {
                             System.out.println("Error Organizador de sindicatos - Linea 56");
                         }
                         mapa.destablecerPiquete(posX, posY);
+                        interfaz.informarANoticiero("FINALIZO el piquete en la "+lugar.getNombreRuta()+
+                            " km "+lugar.getPosX()*lugar.getPosY());
+                        interfaz.sacarImagenPiqueteros(piquetero);
                         exito = new Random().nextBoolean();
                     }
                     
@@ -65,9 +76,9 @@ public class OrganizadorSindicatos {
                 }
             };
         }
-        
         return piquete;
     }
+        
     
     public synchronized Piquete crearPiquete(){
         Random random = new Random();

@@ -22,16 +22,7 @@ public class Main {
         Mapa mapa = new Mapa(plano);
         
         
-        OrganizadorSindicatos org = new OrganizadorSindicatos(piqueteros, mapa);
         
-//        int cantSind = 4;
-//        
-//        for(int i = 0; i < cantSind; i++){
-//            Sindicato sin = new Sindicato(org);
-//            sin.ejecutar();
-//        }
-//        
-//        
         
         
 //        Thread hilo = new Thread(){
@@ -55,6 +46,15 @@ public class Main {
         Ruta ruta = new Ruta(mapa, colectivo);
         Interfaz interfaz = new Interfaz(ruta);
         
+        OrganizadorSindicatos org = new OrganizadorSindicatos(piqueteros, mapa,interfaz);
+        
+        int cantSind = 4;
+        
+        for(int i = 0; i < cantSind; i++){
+            Sindicato sin = new Sindicato(org);
+            sin.ejecutar();
+        }
+
         colectivo.setInterfaz(interfaz);
         colectivo.start();
     }
