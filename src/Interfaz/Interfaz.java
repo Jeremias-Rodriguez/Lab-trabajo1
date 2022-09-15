@@ -35,6 +35,10 @@ public class Interfaz extends javax.swing.JFrame {
      */
     public Interfaz() {
         initComponents();
+        colectivoLabel.setVisible(false);
+        Background.remove(colectivoLabel);
+        fondo.add(colectivoLabel);
+        colectivoLabel.setVisible(true);
         this.setVisible(true);
     }
     
@@ -47,20 +51,20 @@ public class Interfaz extends javax.swing.JFrame {
         
         this.mapa = new Mapa(plano);
         
-//        Thread hilo = new Thread(){
-//            public void run(){
-//                while(true){
-//                    mapa.mostrarMapa();
-//                    try {
-//                        Thread.sleep(1000);
-//                    } catch (InterruptedException ex) {
-//                        System.err.println("El colectivo pincho para siempre");
-//                    }
-//                    System.out.println("\n\n\n\n");
-//                }
-//            }
-//        };
-//        hilo.start();
+        Thread hilo = new Thread(){
+            public void run(){
+                while(true){
+                    mapa.mostrarMapa();
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        System.err.println("El colectivo pincho para siempre");
+                    }
+                    System.out.println("\n\n\n\n");
+                }
+            }
+        };
+        hilo.start();
         
         Ubicacion posInicial = new Ubicacion("Ruta 3", 3, 1);
         this.colectivo = new Colectivo(posInicial, mapa);
@@ -74,8 +78,6 @@ public class Interfaz extends javax.swing.JFrame {
             sin.ejecutar();
         }
 
-        fondo.add(colectivoLabel);
-        
         Chofer chofer = new Chofer(colectivo, mapa, this);
         chofer.start();
     }
@@ -113,8 +115,8 @@ public class Interfaz extends javax.swing.JFrame {
         Background.setPreferredSize(new java.awt.Dimension(1300, 700));
         Background.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        colectivoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/ColectivoHorizontal.png"))); // NOI18N
-        Background.add(colectivoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 300, -1, -1));
+        colectivoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/redimensionCole2.png"))); // NOI18N
+        Background.add(colectivoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 300, 120, 30));
 
         BotEsperar.setBackground(new java.awt.Color(51, 153, 255));
         BotEsperar.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
@@ -193,7 +195,6 @@ public class Interfaz extends javax.swing.JFrame {
 
         RutaCompleta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/RutaDibujo.jpg"))); // NOI18N
         RutaCompleta.setText("jLabel1");
-        RutaCompleta.setName(""); // NOI18N
         Background.add(RutaCompleta, new org.netbeans.lib.awtextra.AbsoluteConstraints(-90, 90, 1370, 510));
 
         getContentPane().add(Background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 700));
@@ -230,16 +231,16 @@ public class Interfaz extends javax.swing.JFrame {
 
     /**
      * Desplaza al objeto grafico del colectivo
-     * @param nuevaX -> Se corresponde con la columna de la matriz
-     * @param nuevaY -> Se corresponde con la fila de la matriz
+     * @param X -> Se corresponde con la columna de la matriz
+     * @param Y -> Se corresponde con la fila de la matriz
      */
     public void moverColectivo(int nuevaX, int nuevaY){
         int posX = colectivoLabel.getLocation().x;
         int posY = colectivoLabel.getLocation().y;
+          
         int limY = (nuevaY-posY);
         if(limY > 0){
-            //ROTAR
-            colectivoLabel.setIcon(new ImageIcon("C:\\Users\\Usuario\\Documents\\NetBeansProjects\\Lab-trabajo1\\src\\Imagenes\\ColectivoAbajo.png"));
+            colectivoLabel.setIcon(new ImageIcon("./src/Imagenes/ColectivoAbajo.png"));
             colectivoLabel.setBounds(posX, posY, 30, 120);
             for(int i = 0; i < limY; i++){
                 posY++;
@@ -251,25 +252,32 @@ public class Interfaz extends javax.swing.JFrame {
             }
         }
         else{
-            colectivoLabel.setIcon(new ImageIcon("C:\\Users\\Usuario\\Documents\\NetBeansProjects\\Lab-trabajo1\\src\\Imagenes\\ColectivoHorizontal.png"));
-            colectivoLabel.setBounds(posX, posY, 120, 30);
-            for(int i = 0; i > limY; i--){
-                posY--;
-                colectivoLabel.setLocation(posX, posY);
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException ex) {
+            if(limY < 0){
+                colectivoLabel.setIcon(new ImageIcon("./src/Imagenes/ColectivoArriba.png"));
+                colectivoLabel.setBounds(posX, posY, 30, 120);
+                for(int i = 0; i > limY; i--){
+                    posY--;
+                    colectivoLabel.setLocation(posX, posY);
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException ex) {
+                    }
                 }
             }
         }
         
         int limX = nuevaX-posX;
-        for(int i = 0; i < limX; i++){
-            posX++;
-            colectivoLabel.setLocation(posX, posY);
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException ex) {
+        
+        if(limX > 0){
+            colectivoLabel.setIcon(new ImageIcon("./src/Imagenes/redimensionCole2.png"));
+            colectivoLabel.setBounds(posX, posY, 120, 30);
+            for(int i = 0; i < limX; i++){
+                posX++;
+                colectivoLabel.setLocation(posX, posY);
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException ex) {
+                }
             }
         }
     }
@@ -284,13 +292,12 @@ public class Interfaz extends javax.swing.JFrame {
     public JLabel aparecerPiqueteros(int posX, int posY) {
         
         JLabel piquetero = new JLabel();
-       
+        
         fondo.add(piquetero);
         
+        piquetero.setIcon(new ImageIcon("./src/Imagenes/Piqueteros.png"));
         piquetero.setBounds(posX, posY, 100, 74);
-        piquetero.setIcon(new ImageIcon("C:\\Users\\Usuario\\Documents\\NetBeansProjects\\Lab-trabajo1\\src\\Imagenes\\Piqueteros.png"));
         
-       
         return piquetero;
     }
 
