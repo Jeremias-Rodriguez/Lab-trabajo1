@@ -5,8 +5,11 @@
 package TPO1;
 
 /**
- *
+ * La clase Doblar es una implementacion de la interfaz EstrategiaConduccion.
+ * Su funcion es implementar la estrategia para doblar con el colectivo
+ * 
  * @author jerexio
+ * @author repetto.francisco
  */
 public class Doblar implements EstrategiaCoduccion {
 

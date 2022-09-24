@@ -5,10 +5,12 @@
 package TPO1;
 
 /**
- * Esta clase tiene 2 principales funcionalidades
- * - Ser un indicador de donde esta un objeto actualmente en la ruta
- * - Indicar en que puntos del mapa se puede doblar
+ * Esta clase tiene la funcionalidad de ser un indicador de donde esta un objeto
+ * actualmente en la ruta.
+ * Algunos de sus metodos estan sincronizados ya que puede ocurrir
+ * que el chofer y el usuario entren en conflicto al momento de doblar
  * @author jerexio
+ * @author repetto.francisco
  */
 public class Ubicacion {
     private String nombreRuta;

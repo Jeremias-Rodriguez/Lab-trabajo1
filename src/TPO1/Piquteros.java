@@ -11,25 +11,37 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 /**
- *
+ * Esta clase representa a los piqueteros que realizan las tareas de piquetes.
+ * Se trata un grupo (o pool de hilos) que realizan tareas que
+ * reciben por parametros
+ * @author jerexio
  * @author repetto.francisco
  */
 public class Piquteros {
-    private int numPiqueterosTotal = 2;
+    private int numPiqueterosTotal;
     private ScheduledThreadPoolExecutor piqueteros = new ScheduledThreadPoolExecutor(numPiqueterosTotal);
 
+    public Piquteros(int numPiqueterosTotal) {
+        this.numPiqueterosTotal = numPiqueterosTotal;
+    }
+
+    /**
+     * Recibe un Callable que es una tarea para realizar un piquete
+     * @param piquete
+     * @return booleano que indica si el piquete fue existoso
+     */
     public boolean realizarPiquete(Callable piquete) {
-        Future<Boolean> exito = piqueteros.submit(piquete);
+        Future<Boolean> resultadoPiquete = piqueteros.submit(piquete);
         
-        boolean ubic = false;
+        boolean exito = false;
         try {
-            ubic = exito.get();
+            exito = resultadoPiquete.get();
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         } catch (ExecutionException ex) {
             ex.printStackTrace();
         }
         
-        return ubic;
+        return exito;
     }
 }

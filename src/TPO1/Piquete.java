@@ -6,7 +6,9 @@
 package TPO1;
 
 /**
- *
+ * Con esta clase se crean piquetes, tienen informacion sobre la ubicacion
+ * y el tiempo que dura un piquete
+ * @author jerexio
  * @author repetto.francisco
  */
 public class Piquete {

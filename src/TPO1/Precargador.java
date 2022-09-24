@@ -10,8 +10,10 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- *
+ * Esta clase se encarga de precargar el mapa matriz, desde un archivo de texto
+ * al mapa.
  * @author jerexio
+ * @author repetto.francisco
  */
 public class Precargador {
     public static void precargar(int[][] matriz){

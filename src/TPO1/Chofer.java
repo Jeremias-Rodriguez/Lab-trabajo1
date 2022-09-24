@@ -7,8 +7,10 @@ package TPO1;
 import Interfaz.Interfaz;
 
 /**
- *
+ * Esta clase es un hilo, encargada de mover el colectivo a nivel logico y
+ * a nivel grafico.
  * @author jerexio
+ * @author repetto.francisco 
  */
 public class Chofer extends Thread {
     private Colectivo colectivo;
@@ -21,6 +23,11 @@ public class Chofer extends Thread {
         this.interfaz = interfaz;
     }
     
+    /**
+     * El trabajo del chofer es:
+     * Mientras no llego a destino, si el colectivo esta en movimiento lo
+     * desplaza a la siguiente posicion a nivel logico y grafico
+     */
     public void run(){
         boolean llegoADestino = false;
         Ubicacion posActual = colectivo.getUbicacion();
@@ -30,11 +37,7 @@ public class Chofer extends Thread {
                 desplazar(posActual);
                 interfaz.moverColectivo(posActual.getPosY()*50, posActual.getPosX()*100);
             }
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException ex) {
-                System.err.println("El colectivo pincho para siempre");
-            }
+            
             llegoADestino = mapa.esDestino(posActual.getPosX(), posActual.getPosY()+1);
         }
     }
@@ -75,6 +78,12 @@ public class Chofer extends Thread {
         return seMovio;
     }
     
+    /**
+     * Dada una posicion representada con X e Y, en el mapa
+     * @param posX --> Fila de la matriz
+     * @param posY --> Columna de la matriz
+     * Verifica si esta en una esquina, y en caso de estar, se detiene
+     */
     public void pararEnEsquina(int posX, int posY){
         
         if(mapa.esEsquina(posX, posY)){

@@ -5,8 +5,12 @@
 package TPO1;
 
 /**
- *
+ * La interfaz EstrategiaConduccion, es parte de un aplicacion del patron
+ * Strategy.
+ * Implementada en las clases Doblar, Seguir y Esperar
+ * 
  * @author jerexio
+ * @author repetto.francisco
  */
 public interface EstrategiaCoduccion {
     public void conducir(Colectivo colectivo);

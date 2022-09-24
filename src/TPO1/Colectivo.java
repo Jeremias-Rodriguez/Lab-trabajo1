@@ -5,8 +5,12 @@
 package TPO1;
 
 /**
- *
+ * Esta clase representa al colectivo.
+ * Es el objeto sobre el que se aplican las estrategias, es controlado por el
+ * usuario. Y es manejado por la clase chofer
+ * 
  * @author jerexio
+ * @author repetto.francisco 
  */
 public class Colectivo {
     private Ubicacion posActual;

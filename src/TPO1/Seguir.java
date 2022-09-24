@@ -5,8 +5,11 @@
 package TPO1;
 
 /**
- *
+ * La clase Seguir es una implementacion de la interfaz EstrategiaConduccion.
+ * Su funcion es implementar la estrategia para avanzar con el colectivo
+ * 
  * @author jerexio
+ * @author repetto.francisco
  */
 public class Seguir implements EstrategiaCoduccion {
 

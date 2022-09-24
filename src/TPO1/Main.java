@@ -6,14 +6,20 @@
 package TPO1;
 
 import Interfaz.Interfaz;
-
+ 
 /**
  *
  * @author repetto.francisco
  */
 public class Main {
     public static void main(String[] args) {
+        int
+            cantidadPiqueteros = 2,
+            cantidadSindicatos = 4;
+        
         Interfaz prog = new Interfaz();
-        prog.iniciar();
+        prog.iniciar(cantidadPiqueteros, cantidadSindicatos);
+        
+        
     }
 }

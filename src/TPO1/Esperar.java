@@ -5,8 +5,11 @@
 package TPO1;
 
 /**
- *
+ * La clase Esperar es una implementacion de la interfaz EstrategiaConduccion.
+ * Su funcion es implementar la estrategia para detener el colectivo
+ * 
  * @author jerexio
+ * @author repetto.francisco
  */
 public class Esperar implements EstrategiaCoduccion {
 

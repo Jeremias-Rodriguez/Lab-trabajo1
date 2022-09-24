@@ -14,6 +14,7 @@ import javax.swing.JLabel;
  * aqui crean sus piquetes, sin pisarse
  * Para que dos sindicatos no esten en el mismo lugar
  * @author jerexio
+ * @author repetto.francisco
  */
 public class OrganizadorSindicatos {
     
@@ -36,18 +37,49 @@ public class OrganizadorSindicatos {
         lugaresParaPiquete.insertar(new Ubicacion("Ruta 5",5,9), 1);
     }
     
+    /**
+     * Recibe un piquete
+     * @param piquete
+     * Crea una tarea con las especificaciones de ese piquete y lo envia a
+     * los piqueteros para que lo realicen
+     * @return retorna si fue exitoso el piquete
+     */
     public boolean mandarPiquete(Piquete piquete){
         return piqueteros.realizarPiquete(crearTareaPiquete(piquete));
     }
     
+    /**
+     * Cuando finaliza un piquete se debe volver a colocar la ubicacion
+     * para que este disponible para que otro sindicato la ocupe
+     * @param ubicacion 
+     */
     public synchronized void finalizarPiquete(Ubicacion ubicacion){
         lugaresParaPiquete.insertar(ubicacion, 1);
     }
     
+    /**
+     * Recibe un piquete
+     * @param nuevoPiquete
+     * Crea una tarea, o sea un Callable con las especificaciones de ese piquete
+     * @return la tarea para ese piquete
+     */
     private Callable crearTareaPiquete(Piquete nuevoPiquete){
         Callable piquete = null;
         if(nuevoPiquete != null){
             piquete = new Callable() {
+                
+                /**
+                 * Primero verifica si puede establecer el piquete en
+                 * la ubicacion correspondiente
+                 * En caso de poder, informa al noticiero, ubica la imagen de
+                 * los piqueteros, simula el tiempo
+                 * Luego quita el piquete, informa al noticiero y elimina la
+                 * imagen de la parte grafica
+                 * 
+                 * Por ultimo, como el callable retorna algo, hicimos que
+                 * informe si el piquete fue exitoso
+                 * .
+                 */
                 @Override
                 public Object call() {
                     boolean exito = false;
@@ -85,7 +117,14 @@ public class OrganizadorSindicatos {
         return piquete;
     }
         
-    
+    /**
+     * Se encarga de crear un piquetes.
+     * Verifica si hay ubicaciones para hacer piquetes,
+     * en caso de haber, ocupa 1. Para ocupar debe quitar la ubicacion de 
+     * los lugaresParaPiquete. La duracion del piquete es random, y la seleccion
+     * del lugar tambien
+     * @return 
+     */
     public synchronized Piquete crearPiquete(){
         Random random = new Random();
         Piquete nuevoPiquete = null;
