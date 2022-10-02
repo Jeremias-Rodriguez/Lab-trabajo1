@@ -10,12 +10,11 @@ import TPO1.Doblar;
 import TPO1.Esperar;
 import TPO1.Mapa;
 import TPO1.OrganizadorSindicatos;
-import TPO1.Piquteros;
+import TPO1.GrupoDePiqueteros;
 import TPO1.Precargador;
 import TPO1.Seguir;
 import TPO1.Sindicato;
 import TPO1.Ubicacion;
-import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -29,6 +28,9 @@ public class Interfaz extends javax.swing.JFrame {
     private Colectivo colectivo;
     private Mapa mapa;
     
+    private int pixelesMoveX;
+    private int pixelesMoveY;
+    
     /**
      * Creates new form Interfaz
      */
@@ -41,16 +43,22 @@ public class Interfaz extends javax.swing.JFrame {
         this.setVisible(true);
     }
     
-    public void iniciar(int cantidadPiqueteros, int cantSindicatos){
-        Piquteros piqueteros = new Piquteros(cantidadPiqueteros);
+    public void iniciar(int cantidadPiqueteros, int cantSindicatos,
+            int filaMapa, int colMapa,
+            int pixelesMoveX, int pixelesMoveY){
         
-        int[][] plano = new int[7][26];
+        this.pixelesMoveX = pixelesMoveX;
+        this.pixelesMoveY = pixelesMoveY;
+        
+        GrupoDePiqueteros piqueteros = new GrupoDePiqueteros(cantidadPiqueteros);
+        
+        int[][] plano = new int[filaMapa][colMapa];
 
         Precargador.precargar(plano);
         
         this.mapa = new Mapa(plano);
         
-        Ubicacion posInicial = new Ubicacion("Ruta 3", 3, 1);
+        Ubicacion posInicial = new Ubicacion(filaMapa/2, 1);
         this.colectivo = new Colectivo(posInicial, mapa);
         
         OrganizadorSindicatos org = new OrganizadorSindicatos(piqueteros, mapa, this);
@@ -97,8 +105,8 @@ public class Interfaz extends javax.swing.JFrame {
         Background.setPreferredSize(new java.awt.Dimension(1300, 700));
         Background.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        colectivoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/redimensionCole2.png"))); // NOI18N
-        Background.add(colectivoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 320, 120, 30));
+        colectivoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/coleNormal.png"))); // NOI18N
+        Background.add(colectivoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 300, 100, 30));
 
         BotEsperar.setBackground(new java.awt.Color(51, 153, 255));
         BotEsperar.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
@@ -110,7 +118,7 @@ public class Interfaz extends javax.swing.JFrame {
                 BotEsperarActionPerformed(evt);
             }
         });
-        Background.add(BotEsperar, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 600, 190, 60));
+        Background.add(BotEsperar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 620, 190, 60));
 
         BotSeguir.setBackground(new java.awt.Color(51, 153, 255));
         BotSeguir.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
@@ -125,7 +133,7 @@ public class Interfaz extends javax.swing.JFrame {
                 BotSeguirActionPerformed(evt);
             }
         });
-        Background.add(BotSeguir, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 600, 190, 60));
+        Background.add(BotSeguir, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 620, 190, 60));
 
         BotDoblar.setBackground(new java.awt.Color(51, 153, 255));
         BotDoblar.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
@@ -137,20 +145,20 @@ public class Interfaz extends javax.swing.JFrame {
                 BotDoblarActionPerformed(evt);
             }
         });
-        Background.add(BotDoblar, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 600, 190, 60));
+        Background.add(BotDoblar, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 620, 190, 60));
 
         Titulo.setFont(new java.awt.Font("Georgia", 1, 48)); // NOI18N
         Titulo.setForeground(new java.awt.Color(0, 0, 0));
         Titulo.setText("Simulacion Colectivo");
-        Background.add(Titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 20, -1, 70));
+        Background.add(Titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 0, -1, 70));
 
-        Noticiero.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/noticiero (2).jpg"))); // NOI18N
-        Background.add(Noticiero, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, 410, 130));
+        Noticiero.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/noticiero.jpg"))); // NOI18N
+        Background.add(Noticiero, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 390, 110, 130));
 
         NoticieroCartel.setFont(new java.awt.Font("SansSerif", 1, 36)); // NOI18N
         NoticieroCartel.setForeground(new java.awt.Color(51, 153, 255));
         NoticieroCartel.setText("Noticias: ");
-        Background.add(NoticieroCartel, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 140, 260, 30));
+        Background.add(NoticieroCartel, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 390, 260, 30));
 
         informacionCartel.setBackground(new java.awt.Color(255, 255, 255));
         informacionCartel.setBorder(null);
@@ -169,16 +177,18 @@ public class Interfaz extends javax.swing.JFrame {
         informacionTexto.setFocusable(false);
         informacionCartel.setViewportView(informacionTexto);
 
-        Background.add(informacionCartel, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 170, 380, 90));
+        Background.add(informacionCartel, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 430, 380, 90));
 
         fondo.setMinimumSize(new java.awt.Dimension(1300, 700));
         fondo.setPreferredSize(new java.awt.Dimension(1300, 700));
         Background.add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        RutaCompleta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/RutaDibujo.jpg"))); // NOI18N
+        RutaCompleta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/RutaDibujo.png"))); // NOI18N
         RutaCompleta.setText("jLabel1");
+        RutaCompleta.setMaximumSize(new java.awt.Dimension(1300, 700));
+        RutaCompleta.setMinimumSize(new java.awt.Dimension(1300, 700));
         RutaCompleta.setPreferredSize(new java.awt.Dimension(1300, 700));
-        Background.add(RutaCompleta, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 1370, 510));
+        Background.add(RutaCompleta, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 1300, 700));
 
         getContentPane().add(Background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 700));
 
@@ -220,8 +230,8 @@ public class Interfaz extends javax.swing.JFrame {
     public void moverColectivo(int nuevaX, int nuevaY){
         int posX = colectivoLabel.getLocation().x;
         int posY = colectivoLabel.getLocation().y;
-          
-        int limY = (nuevaY-posY);
+        
+        int limY = (nuevaY*this.pixelesMoveY-posY);
         if(limY > 0){
             colectivoLabel.setIcon(new ImageIcon("./src/Imagenes/ColectivoAbajo.png"));
             colectivoLabel.setBounds(posX, posY, 30, 100);
@@ -249,14 +259,15 @@ public class Interfaz extends javax.swing.JFrame {
             }
         }
         
-        int limX = nuevaX-posX;
+        int limX = nuevaX*this.pixelesMoveX-posX-50;
         
+        System.out.println(nuevaX*this.pixelesMoveX);
         if(limX > 0){
-            colectivoLabel.setIcon(new ImageIcon("./src/Imagenes/redimensionCole2.png"));
-            colectivoLabel.setBounds(posX, posY, 50, 100);
+            colectivoLabel.setIcon(new ImageIcon("./src/Imagenes/coleNormal.png"));
+            colectivoLabel.setBounds(posX, posY, 100, 30);
             for(int i = 0; i < limX; i++){
                 posX++;
-                colectivoLabel.setBounds(posX, posY, 50, 100);
+                colectivoLabel.setBounds(posX, posY, 100, 30);
                 try {
                     Thread.sleep(10);
                 } catch (InterruptedException ex) {
@@ -285,9 +296,8 @@ public class Interfaz extends javax.swing.JFrame {
         JLabel piquetero = new JLabel();
         
         fondo.add(piquetero);
-        
         piquetero.setIcon(new ImageIcon("./src/Imagenes/Piqueteros.png"));
-        piquetero.setBounds(posX, posY, 50, 100);
+        piquetero.setBounds(posX, posY, 100, 100);
         
         return piquetero;
     }

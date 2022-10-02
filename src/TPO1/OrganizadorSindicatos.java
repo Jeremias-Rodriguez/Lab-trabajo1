@@ -18,23 +18,23 @@ import javax.swing.JLabel;
  */
 public class OrganizadorSindicatos {
     
-    private Piquteros piqueteros;
+    private GrupoDePiqueteros piqueteros;
     private Lista lugaresParaPiquete;
     private Mapa mapa;
     private Interfaz interfaz;
     
-    public OrganizadorSindicatos(Piquteros piqueteros, Mapa mapa, Interfaz interfaz){
+    public OrganizadorSindicatos(GrupoDePiqueteros piqueteros, Mapa mapa, Interfaz interfaz){
         this.piqueteros = piqueteros;
         this.mapa = mapa;
         this.interfaz = interfaz;
         
         lugaresParaPiquete = new Lista();
-        lugaresParaPiquete.insertar(new Ubicacion("Ruta 1",1,17), 1);
-        lugaresParaPiquete.insertar(new Ubicacion("Ruta 3",3,6), 1);
-        lugaresParaPiquete.insertar(new Ubicacion("Ruta 3",3,16), 1);
-        lugaresParaPiquete.insertar(new Ubicacion("Ruta 3",3,19), 1);
-        lugaresParaPiquete.insertar(new Ubicacion("Ruta 3",3,22), 1);
-        lugaresParaPiquete.insertar(new Ubicacion("Ruta 5",5,9), 1);
+        lugaresParaPiquete.insertar(new Ubicacion("Ruta 1",3,6), 1);
+        lugaresParaPiquete.insertar(new Ubicacion("Ruta 3",3,8), 1);
+        lugaresParaPiquete.insertar(new Ubicacion("Ruta 3",1,7), 1);
+        lugaresParaPiquete.insertar(new Ubicacion("Ruta 3",3,10), 1);
+        lugaresParaPiquete.insertar(new Ubicacion("Ruta 3",5,5), 1);
+        lugaresParaPiquete.insertar(new Ubicacion("Ruta 5",3,4), 1);
     }
     
     /**
@@ -92,7 +92,7 @@ public class OrganizadorSindicatos {
                         interfaz.informarANoticiero("INICIO de un piquete en la "+lugar.getNombreRuta()+
                             " km "+lugar.getPosX()*lugar.getPosY());
                         
-                        JLabel labelDelete = interfaz.aparecerPiqueteros(posY*50, posX*100);
+                        JLabel labelDelete = interfaz.aparecerPiqueteros(posY*100-50, posX*100-50);
                         
                         try {
                             Thread.sleep(nuevoPiquete.getDuracionMillis());

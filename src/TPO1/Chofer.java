@@ -35,7 +35,7 @@ public class Chofer extends Thread {
         while(!llegoADestino){
             if(colectivo.estaEnMovimiento()){
                 desplazar(posActual);
-                interfaz.moverColectivo(posActual.getPosY()*50, posActual.getPosX()*100);
+                interfaz.moverColectivo(posActual.getPosY(), posActual.getPosX());
             }
             
             llegoADestino = mapa.esDestino(posActual.getPosX(), posActual.getPosY()+1);

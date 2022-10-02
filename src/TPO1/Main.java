@@ -9,16 +9,22 @@ import Interfaz.Interfaz;
  
 /**
  *
+ * @author jerexio
  * @author repetto.francisco
  */
 public class Main {
     public static void main(String[] args) {
-        int
-            cantidadPiqueteros = 2,
-            cantidadSindicatos = 4;
+        int cantidadPiqueteros = 2,
+            cantidadSindicatos = 4,
+            sizeMatrizFila = 7,
+            sizeMatrizCol = 13,
+            pixelesMoveX = 700/sizeMatrizFila,
+            pixelesMoveY = 1300/sizeMatrizCol;
         
         Interfaz prog = new Interfaz();
-        prog.iniciar(cantidadPiqueteros, cantidadSindicatos);
+        prog.iniciar(cantidadPiqueteros, cantidadSindicatos,
+                sizeMatrizFila, sizeMatrizCol,
+                pixelesMoveX, pixelesMoveY);
         
         
     }

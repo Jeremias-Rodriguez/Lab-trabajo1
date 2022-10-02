@@ -16,7 +16,12 @@ public class Ubicacion {
     private String nombreRuta;
     private int posX;
     private int posY;
-
+    
+    public Ubicacion(int posX, int posY) {
+        this.posX = posX;
+        this.posY = posY;
+    }
+    
     public Ubicacion(String nombreRuta, int posX, int posY) {
         this.nombreRuta = nombreRuta;
         this.posX = posX;

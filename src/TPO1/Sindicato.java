@@ -47,7 +47,7 @@ public class Sindicato {
      * Se define una tarea runnable, que es la que crea y ejecuta el
      * pool de un solo hilo, o sea el jefeSindicato.
      */
-    Runnable tarea = new Runnable(){
+    private Runnable tarea = new Runnable(){
         /**
          * Crea el piquete
          * Lo manda para que lo realicen
