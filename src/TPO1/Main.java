@@ -14,8 +14,8 @@ import Interfaz.Interfaz;
  */
 public class Main {
     public static void main(String[] args) {
-        int cantidadPiqueteros = 2,
-            cantidadSindicatos = 4,
+        int cantidadPiqueteros = 10,
+            cantidadSindicatos = 100,
             sizeMatrizFila = 7,
             sizeMatrizCol = 13,
             pixelesMoveX = 700/sizeMatrizFila,

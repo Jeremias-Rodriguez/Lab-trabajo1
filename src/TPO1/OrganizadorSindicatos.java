@@ -55,10 +55,11 @@ public class OrganizadorSindicatos {
      */
     public synchronized void finalizarPiquete(Ubicacion ubicacion){
         lugaresParaPiquete.insertar(ubicacion, 1);
+        this.notify();
     }
     
-    /**
-     * Recibe un piquete
+    /**y 
+    * Recibe un piquete
      * @param nuevoPiquete
      * Crea una tarea, o sea un Callable con las especificaciones de ese piquete
      * @return la tarea para ese piquete
@@ -138,6 +139,12 @@ public class OrganizadorSindicatos {
 
             long duracion = (random.nextInt(10)+1) * 1000;
             nuevoPiquete = new Piquete(ubic, duracion);
+        }
+        else{
+            try {
+                this.wait();
+            } catch (InterruptedException ex) {
+            }
         }
         
         return nuevoPiquete;

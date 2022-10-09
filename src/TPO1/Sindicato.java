@@ -38,14 +38,31 @@ public class Sindicato {
     private final ScheduledExecutorService jefeSindicato =
      Executors.newScheduledThreadPool(1);
     
-    
+    /**
+     * Cuando se crea, se le define 2 tareas
+     *  - Cada cierto tiempo crear una nueva tarea
+     *  - Poner en la cola de tareas, una tarea que finalice al automatizador
+     */
     public Sindicato(OrganizadorSindicatos organizador) {
         this.organizador = organizador;
+        
+        Random random = new Random();
+        final ScheduledFuture automatizador = 
+            jefeSindicato.scheduleAtFixedRate(tarea, (random.nextInt(8)+2)*1000, 10000, TimeUnit.MILLISECONDS);
+        
+        /**
+         * Pone un "tope" de creacion de piquetes.
+         */
+        jefeSindicato.schedule(new Runnable(){
+            public void run(){
+                automatizador.cancel(true);
+            }
+        }, 90, TimeUnit.SECONDS);
     }
     
     /**
      * Se define una tarea runnable, que es la que crea y ejecuta el
-     * pool de un solo hilo, o sea el jefeSindicato.
+     * grupo de un solo hilo, o sea el jefeSindicato.
      */
     private Runnable tarea = new Runnable(){
         /**
@@ -64,24 +81,4 @@ public class Sindicato {
             organizador.finalizarPiquete(piquete.getUbicacion());
         }
     };
-    
-    /**
-     * Este metodo tiene 2 funciones
-     *  - Cada cierto tiempo crear una nueva tarea
-     *  - Poner en la cola de tareas, una tarea que finalice al automatizador
-     */
-    public void ejecutar(){
-        Random random = new Random();
-        final ScheduledFuture automatizador = 
-            jefeSindicato.scheduleAtFixedRate(tarea, (random.nextInt(8)+2)*1000, 10000, TimeUnit.MILLISECONDS);
-        
-        /**
-         * Pone un "tope" de creacion de piquetes.
-         */
-        jefeSindicato.schedule(new Runnable(){
-            public void run(){
-                automatizador.cancel(true);
-            }
-        }, 90, TimeUnit.SECONDS);
-    }
 }
